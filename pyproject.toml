@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "autotool"
+version = "1.0.0"
+description = "Command-line tools for everyday office automation: Excel/CSV merging and cleaning, reports, PDFs and bulk renaming."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [{ name = "Zafer Burak Togur" }]
+dependencies = [
+  "pandas>=2.2",
+  "openpyxl>=3.1",
+  "pypdf>=5.0",
+  "typer>=0.12",
+  "rich>=13.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "reportlab>=4.0"]
+
+[project.scripts]
+autotool = "autotool.cli:app"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
