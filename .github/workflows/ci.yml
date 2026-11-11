@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: pip install -e ".[dev]"
+      - run: pytest -q
+      - name: Smoke test the CLI on the examples
+        run: |
+          autotool merge examples/sales_january.csv examples/sales_february.csv -o output/all_sales.xlsx
+          autotool report output/all_sales.xlsx --by region --value amount -o output/sales_report.xlsx
